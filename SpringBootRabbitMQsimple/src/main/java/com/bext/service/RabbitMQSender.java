@@ -21,8 +21,16 @@ public class RabbitMQSender {
 	@Value("${bext.rabbitmq.routingkey}")
 	private String routingkey;
 	
-	public void send(Employee empleado) { 
-		rabbitTemplate.convertAndSend( exchange, routingkey, empleado);
-		logger.info("Send msg = " + empleado);
+	public void sendViaExchage() {
+		String mensaje = "simple mensaje enviado por sendViaExchange";
+	    rabbitTemplate.convertAndSend( exchange, routingkey, mensaje);	
 	}
+	
+	public void sendEmployeeViaExchange(Employee empleado) {
+		logger.info("-> sendEmployeeViaExchange   : " + empleado);
+		rabbitTemplate.convertAndSend( exchange, routingkey, empleado, new MiMessagePostProcessor());
+		logger.info("   sendEmployeeViaExchange ->: " + empleado);
+	}
+	
+	
 }

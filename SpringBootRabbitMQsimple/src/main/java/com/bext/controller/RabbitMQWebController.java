@@ -16,6 +16,12 @@ public class RabbitMQWebController {
 	@Autowired
 	RabbitMQSender rabbitMQSender;
 	
+	@GetMapping("/simpleSend")
+	public String simpleSend() {
+		rabbitMQSender.sendViaExchage();
+		return "Mensaje simple enviado por RabbitMQ Exitoso!";
+	}
+	
 	@GetMapping("/producer")
 	public String producer( @RequestParam("empName") String empName, @RequestParam("empId") String empId) {
 		
@@ -23,9 +29,9 @@ public class RabbitMQWebController {
 		emp.setEmpName(empName);
 		emp.setEmpId(empId);
 		
-		rabbitMQSender.send(emp);
+		rabbitMQSender.sendEmployeeViaExchange(emp);
 		   
-		return "Mensaje enviado por RabbitMQ Exitoso!";
+		return "Mensaje Empleado enviado por RabbitMQ Exitoso!";
 	}
 
 }
